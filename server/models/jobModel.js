@@ -1,7 +1,7 @@
 // import mongoose from "mongoose";
 const mongoose = require("mongoose")
 
-const ProductSchema = new mongoose.Schema({
+const jobsSchema = new mongoose.Schema({
     id: { type: String },
     companyName: { type: String },
     jobTitle: { type: String },
@@ -17,10 +17,10 @@ const ProductSchema = new mongoose.Schema({
     user: [
         {
             type: mongoose.Types.ObjectId,
-            ref: "seller"
+            ref: "jobPoster"
         }
     ]
 })
 
-const productModel = mongoose.model("productModel", ProductSchema);
-module.exports = productModel;
+const jobModel = mongoose.model("jobModel", jobsSchema);
+module.exports = jobModel;

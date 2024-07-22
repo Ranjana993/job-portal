@@ -1,9 +1,9 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const seller = require("../models/sellerModel")
+const jobPoster = require('../models/jobPosterModel');
 // Assuming you have a User model set up// Assuming you have a User model set up
 
-const register = async (req, res) => {
+const registerAsAjobPoster = async (req, res) => {
   try {
     const { email, fullName, contactNumber, companyName, location, buisnessCategory, description, password } = req.body;
 
@@ -15,7 +15,7 @@ const register = async (req, res) => {
     }
 
     // Check if user already exists
-    const existingUser = await seller.findOne({ email });
+    const existingUser = await jobPoster.findOne({ email });
     if (existingUser) {
       return res.status(400).json({
         message: "User with this email already exists"
@@ -27,7 +27,7 @@ const register = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, salt);
 
     // Create new user
-    const newUser = new seller({
+    const newUser = new jobPoster({
       email,
       fullName,
       contactNumber,
@@ -72,7 +72,7 @@ const register = async (req, res) => {
 
 
 
-const signinAsASeller = async (req, res) => {
+const signinAsjobPoster = async (req, res) => {
   try {
     const { email, password } = req.body;
 
@@ -84,7 +84,7 @@ const signinAsASeller = async (req, res) => {
     }
 
     // Check if user exists
-    const user = await seller.findOne({ email });
+    const user = await jobPoster.findOne({ email });
     if (!user) {
       return res.status(400).json({
         message: "Invalid email or password"
@@ -99,7 +99,7 @@ const signinAsASeller = async (req, res) => {
       });
     }
     res.status(200).json({ message: "registered successfully ", success: true, user });
-    
+
   } catch (error) {
     console.error(error.message);
     res.status(500).send('Server error');
@@ -109,5 +109,5 @@ const signinAsASeller = async (req, res) => {
 
 
 module.exports = {
-  register, signinAsASeller
+  registerAsAjobPoster, signinAsjobPoster
 };

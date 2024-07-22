@@ -4,15 +4,12 @@ import Creatable from 'react-select/creatable'
 
 const PostJob = () => {
   const [selectedOpts, setSelectedOpts] = useState(null)
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm()
+  const {  register, formState: { errors }} = useForm()
 
-  const onSubmit = (data) => {
+  const handleSubmit = (data) => {
+    data.preventDefault()
     data.skills = setSelectedOpts
+    console.log("data" , data);
   }
 
   const options = [
@@ -75,8 +72,6 @@ const PostJob = () => {
               <input type='text' placeholder='eg. Brussels' {...register("jobLocation")} className='create-job-input' />
             </div>
           </div>
-
-
 
           {/* 4th row */}
           <div className='create-job-flex'>

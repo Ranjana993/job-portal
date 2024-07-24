@@ -39,11 +39,9 @@ const signinUser = async (req, res) => {
         if (!email || !password) {
             return res.status(403).json({ msg: "User not found, please register" });
         }
-
         const existingUser = await User.findOne({ email });
-
         if (!existingUser) {
-            return res.status(403).json({ msg: "Invalid credentials" });
+            return res.status(403).json({ msg: "user not found " });
         }
 
         const isPasswordValid = await bcrypt.compare(password, existingUser.password);

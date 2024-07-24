@@ -168,4 +168,5 @@ const jobs = [
         "description": "Mollit in laborum tempor Lorem incididunt irure. Aute eu ex ad sunt. Pariatur sint culpa do incididunt eiusmod eiusmod culpa. laborum tempor Lorem incididunt."
     }
 ]
+
 module.exports = jobs

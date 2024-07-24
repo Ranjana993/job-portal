@@ -4,6 +4,7 @@ const cors = require("cors");
 const connectDB = require("./Database/dbConnect");
 const productRoute = require("./routes/route");
 const router = require("./routes/userRoute");
+// const uploadData = require("./uploadingDataToDB");
 
 
 const app = express();
@@ -25,3 +26,4 @@ app.get("/", (req, res) => {
 app.listen(PORT, () => console.log(`server is running on http://localhost:${PORT}`))
 
 connectDB();
+// uploadData()

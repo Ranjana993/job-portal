@@ -1,11 +1,10 @@
-// const products = require("./config/data");
-const productModel = require("./models/productModel");
-const products = require("./config/data")
+const jobs = require("./config/data");
+const jobModel = require("./models/jobModel");
 
 const uploadData = async () => {
     try {
-        await productModel.deleteMany();
-        await productModel.insertMany(products);
+        await jobModel.deleteMany();
+        await jobModel.insertMany(jobs);
         console.log("Product Saved successfully")
     } catch (error) {
         console.log(error.message);

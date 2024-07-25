@@ -5,11 +5,11 @@ const router = express.Router();
 
 
 router.get("/get-jobs", getJobs)
-router.get("/get-seller-product/:id", getAllJobPosted)
-router.get('/get-products/:id', getJobById);
-router.post('/upload-product', upload.single('companyLogo'), uploadingJob);
+router.get("/get-poster-jobs/:id", getAllJobPosted)
+router.get('/get-job/:id', getJobById);
+router.post('/post-job', upload.single('companyLogo'), uploadingJob);
 
-router.put("/edit-product/:id", editJob)
-router.delete("/delete-product/:id", deleteJob)
+router.put("/edit-job/:id", editJob)
+router.delete("/delete-job/:id", deleteJob)
 
 module.exports = router

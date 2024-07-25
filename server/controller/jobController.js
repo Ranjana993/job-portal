@@ -50,42 +50,36 @@ const getJobById = async (req, res) => {
 
 // Create a new product
 const uploadingJob = async (req, res) => {
+    const session = await mongoose.startSession();
+    session.startTransaction();
     try {
         // Destructure the incoming form data
-        const { id, companyName, jobTitle, minPrice, maxPrice, salaryType, jobLocation, postingDate, experienceLevel, employmentType, description } = req.body;
+        const { id, companyName, jobTitle, minPrice, maxPrice, salaryType, jobLocation, postingDate, experienceLevel, employmentType, description,skills } = req.body;
 
-        //check duplicate product
-        let isExist = await jobModel.findOne({ id: id })
+        // Check for duplicate job
+        let isExist = await jobModel.findOne({ id: id });
         if (isExist) {
-            return res.status(400).json({ error: 'This product is already exists' });
-        }
-        // checking user if it is existing or not 
-        const exisitingUser = await jobPoster.findById(user)
-        if (!exisitingUser) {
-            return res.status(404).send({
-                success: false,
-                message: "unable to find user",
-            });
+            return res.status(400).json({ error: 'This job already exists' });
         }
 
-        // Get the uploaded files
-        const companyLogo = req.files['url'] ? req.files['url'][0] : null;
 
-        if (!companyLogo) {
-            return res.status(400).json({ error: ' companyLogo  files are required' });
+        // Get the uploaded file
+        const companyLogoFile = req.files && req.files['companyLogo'] ? req.files['companyLogo'][0] : null;
+        console.log("companyLogoFile", req.files);
+        if (!companyLogoFile) {
+            return res.status(400).json({ error: 'Company logo file is required' });
         }
 
-        // Upload files to Cloudinary
-        const urlImageUrl = await uploadOnCloudinary(urlFile.path);
-
-        if (!urlImageUrl) {
-            return res.status(500).json({ error: 'Failed to upload images to Cloudinary' });
+        // Upload file to Cloudinary
+        const companyLogoUrl = await uploadOnCloudinary(companyLogoFile.path);
+        if (!companyLogoUrl) {
+            return res.status(500).json({ error: 'Failed to upload company logo to Cloudinary' });
         }
 
-        // Create new product with the URL from Cloudinary
+        // Create new job with the URL from Cloudinary
         const newJob = new jobModel({
             id,
-            companyLogo: urlImageUrl,
+            companyLogo: companyLogoUrl,
             companyName,
             jobTitle,
             minPrice,
@@ -95,28 +89,30 @@ const uploadingJob = async (req, res) => {
             postingDate,
             experienceLevel,
             employmentType,
-            description
+            description,
+            skills: Array.isArray(skills) ? skills : skills.split(',').map(skill => skill.trim()), // Ensure skills is an array
+            user: [existingUser._id] // Ensure user is correctly linked
         });
-        const session = await mongoose.startSession();
-        session.startTransaction();
-        await newJob.save(session);
-        exisitingUser.products.push(newJob)
-        await exisitingUser.save(session);
-        await session.commitTransaction();
-        await newJob.save();
 
-        res.status(201).json({ message: "Product has been successfully uploaded ", newJob });
-    }
-    catch (error) {
+        // Save the job and update the user's jobs
+        await newJob.save({ session });
+        existingUser.jobs.push(newJob._id);
+        await existingUser.save({ session });
+        await session.commitTransaction();
+
+        res.status(201).json({ message: "Job has been successfully uploaded", newJob });
+    } catch (error) {
+        await session.abortTransaction();
         console.error(error);
         res.status(500).json({ message: "Something went wrong" });
-    }
-    finally {
+    } finally {
+        session.endSession();
         if (req.file && req.file.path) {
             fs.unlinkSync(req.file.path);
         }
     }
-};
+}
+
 
 const editJob = async (req, res) => {
     const { id } = req.params;

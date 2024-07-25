@@ -13,6 +13,7 @@ const Home = () => {
   const [location, setLocation] = useState("");
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [currPage, setCurrPage] = useState(1);
+  const [isOnline, setIsOnline] = useState(navigator.onLine);
   const itemPerPage = 6;
 
   const dispatch = useDispatch();
@@ -21,6 +22,18 @@ const Home = () => {
   useEffect(() => {
     dispatch(fetchJobs());
   }, [dispatch]);
+
+  useEffect(() => {
+    const handleOnlineStatus = () => setIsOnline(navigator.onLine);
+
+    window.addEventListener('online', handleOnlineStatus);
+    window.addEventListener('offline', handleOnlineStatus);
+
+    return () => {
+      window.removeEventListener('online', handleOnlineStatus);
+      window.removeEventListener('offline', handleOnlineStatus);
+    };
+  }, []);
 
   const handleQueryChange = (e, type) => {
     if (type === 'query') {
@@ -99,6 +112,14 @@ const Home = () => {
   return (
     <>
       <Banner query={query} handleChange={handleQueryChange} />
+
+      {/* Offline Message */}
+      {!isOnline && (
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+          <strong className="font-bold">You&apos;re offline!</strong>
+          <span className="block sm:inline"> Please check your internet connection.</span>
+        </div>
+      )}
 
       {/* Main content */}
       <div className='bg-[#FAFAFA] md:grid grid-cols-4 gap-8 lg:px-24 px-4 py-12'>

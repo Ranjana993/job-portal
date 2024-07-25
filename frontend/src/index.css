@@ -1,3 +1,40 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* post job css */
+.create-job-input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+}
+
+.create-job-input.hidden {
+  display: none;
+}
+
+.custom-file-upload {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+  background-color: #f5f5f5;
+  transition: background-color 0.3s ease;
+}
+
+.custom-file-upload:hover {
+  background-color: #e0e0e0;
+}
+
+.custom-file-upload:active {
+  background-color: #d0d0d0;
+}
+
+.custom-file-upload span {
+  display: inline-block;
+  margin-left: 0.5rem;
+  font-size: 1rem;
+}

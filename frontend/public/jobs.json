@@ -11,6 +11,7 @@
       "postingDate": "2023-11-08",
       "experienceLevel": "Any experience",
       "employmentType": "Full-time",
+      "skills":["react.js" , "html" , "css "],
       "description": "Mollit in laborum tempor Lorem incididunt irure. Aute eu ex ad sunt. Pariatur sint culpa do incididunt eiusmod eiusmod culpa. laborum tempor Lorem incididunt."
     },
     {
@@ -25,6 +26,7 @@
       "postingDate": "2023-11-02",
       "experienceLevel": "Internship",
       "employmentType": "Temporary",
+      "skills": [ "react.js", "html", "css "  ],
       "description": "Mollit in laborum tempor Lorem incididunt irure. Aute eu ex ad sunt. Pariatur sint culpa do incididunt eiusmod eiusmod culpa. laborum tempor Lorem incididunt."
     },
     {
@@ -39,6 +41,7 @@
       "postingDate": "2023-10-28",
       "experienceLevel": "Any experience",
       "employmentType": "Full-time", 
+      "skills": [  "react.js",  "html", "css "  ],
       "description": "Mollit in laborum tempor Lorem incididunt irure. Aute eu ex ad sunt. Pariatur sint culpa do incididunt eiusmod eiusmod culpa. laborum tempor Lorem incididunt."
     },
     {
@@ -53,6 +56,7 @@
       "postingDate": "2023-10-05",
       "experienceLevel": "Work remotely",
       "employmentType": "Part-time",
+      "skills": [ "react.js",  "html", "css " ],
       "description": "Mollit in laborum tempor Lorem incididunt irure. Aute eu ex ad sunt. Pariatur sint culpa do incididunt eiusmod eiusmod culpa. laborum tempor Lorem incididunt."
     },
     {
@@ -67,6 +71,7 @@
       "postingDate": "2023-10-28",
       "experienceLevel": "Intership",
       "employmentType": "Full-time",
+      "skills": [  "react.js", "html", "css " ],
       "description": "Mollit in laborum tempor Lorem incididunt irure. Aute eu ex ad sunt. Pariatur sint culpa do incididunt eiusmod eiusmod culpa. laborum tempor Lorem incididunt."
     },
     {
@@ -81,6 +86,7 @@
       "postingDate": "2023-10-05",
       "experienceLevel": "Intership",
       "employmentType": "Temporary",
+      "skills": [ "react.js",  "html", "css "  ],
       "description": "Mollit in laborum tempor Lorem incididunt irure. Aute eu ex ad sunt. Pariatur sint culpa do incididunt eiusmod eiusmod culpa. laborum tempor Lorem incididunt."
     },
     {
@@ -95,6 +101,7 @@
       "postingDate": "2023-11-05",
       "experienceLevel": "Any experience",
       "employmentType": "Full-time",
+      "skills": [  "react.js",  "html", "css "  ],
       "description": "Mollit in laborum tempor Lorem incididunt irure. Aute eu ex ad sunt. Pariatur sint culpa do incididunt eiusmod eiusmod culpa. laborum tempor Lorem incididunt."
     },
     {
@@ -109,6 +116,7 @@
       "postingDate": "2023-10-28",
       "experienceLevel": "Internship",
       "employmentType": "Temporary",
+      "skills": [ "react.js", "html", "css " ],
       "description": "Mollit in laborum tempor Lorem incididunt irure. Aute eu ex ad sunt. Pariatur sint culpa do incididunt eiusmod eiusmod culpa. laborum tempor Lorem incididunt."
     },
     {
@@ -123,6 +131,7 @@
       "postingDate": "2023-10-28",
       "experienceLevel": "Any experience",
       "employmentType": "Full-time", 
+      "skills": [ "react.js",  "html", "css " ],
       "description": "Mollit in laborum tempor Lorem incididunt irure. Aute eu ex ad sunt. Pariatur sint culpa do incididunt eiusmod eiusmod culpa. laborum tempor Lorem incididunt."
     },
     {
@@ -137,6 +146,7 @@
       "postingDate": "2023-10-05",
       "experienceLevel": "Work remotely",
       "employmentType": "Part-time",
+      "skills": [ "react.js",  "html",  "css " ],
       "description": "Mollit in laborum tempor Lorem incididunt irure. Aute eu ex ad sunt. Pariatur sint culpa do incididunt eiusmod eiusmod culpa. laborum tempor Lorem incididunt."
     },
     {
@@ -151,6 +161,7 @@
       "postingDate": "2023-10-28",
       "experienceLevel": "Intership",
       "employmentType": "Full-time",
+      "skills": [ "react.js",  "html",  "css " ],
       "description": "Mollit in laborum tempor Lorem incididunt irure. Aute eu ex ad sunt. Pariatur sint culpa do incididunt eiusmod eiusmod culpa. laborum tempor Lorem incididunt."
     },
     {
@@ -165,6 +176,7 @@
       "postingDate": "2022-10-05",
       "experienceLevel": "Intership",
       "employmentType": "Temporary",
+      "skills": [ "react.js",  "html", "css "  ],
       "description": "Mollit in laborum tempor Lorem incididunt irure. Aute eu ex ad sunt. Pariatur sint culpa do incididunt eiusmod eiusmod culpa. laborum tempor Lorem incididunt."
     }
   ]

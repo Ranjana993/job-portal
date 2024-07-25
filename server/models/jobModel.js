@@ -1,5 +1,4 @@
-// import mongoose from "mongoose";
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
 
 const jobsSchema = new mongoose.Schema({
     id: { type: String },
@@ -13,6 +12,7 @@ const jobsSchema = new mongoose.Schema({
     postingDate: { type: String },
     experienceLevel: { type: String },
     employmentType: { type: String },
+    skills: [{ type: String }], 
     description: { type: String },
     user: [
         {
@@ -20,7 +20,7 @@ const jobsSchema = new mongoose.Schema({
             ref: "jobPoster"
         }
     ]
-})
+});
 
 const jobModel = mongoose.model("jobModel", jobsSchema);
 module.exports = jobModel;

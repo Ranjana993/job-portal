@@ -9,7 +9,7 @@ const jobPosterSchema = new mongoose.Schema({
   buisnessCategory: { type: String, required: true },
   description: { type: String, required: true },
   is_verified: { type: Number, default: 0 },
-  products: [
+  jobs: [
     {
       type: mongoose.Types.ObjectId,
       ref: "jobModel"

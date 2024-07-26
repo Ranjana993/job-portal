@@ -12,7 +12,7 @@ const jobsSchema = new mongoose.Schema({
     postingDate: { type: String },
     experienceLevel: { type: String },
     employmentType: { type: String },
-    skills: [{ type: String }], 
+    skills: [{ type: String }],
     description: { type: String },
     user: [
         {

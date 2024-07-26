@@ -50,69 +50,52 @@ const getJobById = async (req, res) => {
 
 // Create a new product
 const uploadingJob = async (req, res) => {
-    const session = await mongoose.startSession();
-    session.startTransaction();
     try {
+        console.log(req);
         // Destructure the incoming form data
-        const { id, companyName, jobTitle, minPrice, maxPrice, salaryType, jobLocation, postingDate, experienceLevel, employmentType, description,skills } = req.body;
+        const { id, companyName, jobTitle, companyLogo, minPrice, maxPrice, salaryType, jobLocation, postingDate, experienceLevel, employmentType, skills, description, user } = req.body;
+        
 
-        // Check for duplicate job
-        let isExist = await jobModel.findOne({ id: id });
+        //check duplicate product
+        let isExist = await jobModel.findOne({ id: id })
         if (isExist) {
-            return res.status(400).json({ error: 'This job already exists' });
+            return res.status(400).json({ error: 'This job is already exists' });
+        }
+
+        // checking user if it is existing or not 
+        const exisitingUser = await jobPoster.findById(user)
+        if (!exisitingUser) {
+            return res.status(404).send({
+                success: false,
+                message: "unable to find user",
+            });
         }
 
 
-        // Get the uploaded file
-        const companyLogoFile = req.files && req.files['companyLogo'] ? req.files['companyLogo'][0] : null;
-        console.log("companyLogoFile", req.files);
-        if (!companyLogoFile) {
-            return res.status(400).json({ error: 'Company logo file is required' });
-        }
-
-        // Upload file to Cloudinary
-        const companyLogoUrl = await uploadOnCloudinary(companyLogoFile.path);
-        if (!companyLogoUrl) {
-            return res.status(500).json({ error: 'Failed to upload company logo to Cloudinary' });
-        }
-
-        // Create new job with the URL from Cloudinary
-        const newJob = new jobModel({
-            id,
-            companyLogo: companyLogoUrl,
-            companyName,
-            jobTitle,
-            minPrice,
-            maxPrice,
-            salaryType,
-            jobLocation,
-            postingDate,
-            experienceLevel,
-            employmentType,
-            description,
-            skills: Array.isArray(skills) ? skills : skills.split(',').map(skill => skill.trim()), // Ensure skills is an array
-            user: [existingUser._id] // Ensure user is correctly linked
+        // Create new product with the URL from Cloudinary
+        const newJob = new productModel({
+            id, companyName, jobTitle, companyLogo, minPrice, maxPrice, salaryType, jobLocation, postingDate, experienceLevel, employmentType, skills, description, user
         });
-
-        // Save the job and update the user's jobs
-        await newJob.save({ session });
-        existingUser.jobs.push(newJob._id);
-        await existingUser.save({ session });
+        const session = await mongoose.startSession();
+        session.startTransaction();
+        await newJob.save(session);
+        exisitingUser.jobs.push(newJob)
+        await exisitingUser.save(session);
         await session.commitTransaction();
+        await newJob.save();
 
-        res.status(201).json({ message: "Job has been successfully uploaded", newJob });
-    } catch (error) {
-        await session.abortTransaction();
+        res.status(201).json({ message: "Product has been successfully uploaded ", newJob });
+    }
+    catch (error) {
         console.error(error);
         res.status(500).json({ message: "Something went wrong" });
-    } finally {
-        session.endSession();
+    }
+    finally {
         if (req.file && req.file.path) {
             fs.unlinkSync(req.file.path);
         }
     }
-}
-
+};
 
 const editJob = async (req, res) => {
     const { id } = req.params;

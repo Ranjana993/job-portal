@@ -7,6 +7,7 @@ import axios from 'axios';
 const PostJob = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const [selectedSkills, setSelectedSkills] = useState([]);
+  const jobPosterID = localStorage.getItem('Job-Poster');
   const [formData, setFormData] = useState({
     id: '',
     companyLogo: '',
@@ -41,38 +42,39 @@ const PostJob = () => {
 
   const onSubmit = async (data) => {
     const skills = selectedSkills.map(skill => skill.value);
+    
     const formDataToSend = new FormData();
-    formDataToSend.append('id', formData.id);
-    formDataToSend.append('companyLogo', formData.companyLogo);
-    formDataToSend.append('companyName', formData.companyName);
-    formDataToSend.append('jobTitle', formData.jobTitle);
-    formDataToSend.append('minPrice', formData.minPrice);
-    formDataToSend.append('maxPrice', formData.maxPrice);
-    formDataToSend.append('salaryType', formData.salaryType);
-    formDataToSend.append('jobLocation', formData.jobLocation);
-    formDataToSend.append('postingDate', formData.postingDate);
-    formDataToSend.append('experienceLevel', formData.experienceLevel);
-    formDataToSend.append('employmentType', formData.employmentType);
-    formDataToSend.append('description', formData.description);
+    formDataToSend.append('id', data.id);
+    formDataToSend.append('companyLogo', data.companyLogo);
+    formDataToSend.append('companyName', data.companyName);
+    formDataToSend.append('jobTitle', data.jobTitle);
+    formDataToSend.append('minPrice', data.minPrice);
+    formDataToSend.append('maxPrice', data.maxPrice);
+    formDataToSend.append('salaryType', data.salaryType);
+    formDataToSend.append('jobLocation', data.jobLocation);
+    formDataToSend.append('postingDate', data.postingDate);
+    formDataToSend.append('experienceLevel', data.experienceLevel);
+    formDataToSend.append('employmentType', data.employmentType);
+    formDataToSend.append('description', data.description);
     formDataToSend.append('skills', JSON.stringify(skills));
-    formDataToSend.append('postedBy', formData.postedBy);
+    formDataToSend.append('postedBy', data.postedBy);
+    formDataToSend.append('user', jobPosterID);
 
-    // const token = localStorage.getItem('token');
-
-    // try {
-    //   await axios.post('http://localhost:9000/post-job', formDataToSend, {
-    //     headers: {
-    //       'Content-Type': 'multipart/form-data',
-    //       Authorization: `Bearer ${token}`
-    //     }
-    //   });
-    //   toast.success("Job posted successfully");
-    // } catch (error) {
-    //   toast.error("Failed to post job");
-    //   console.error(error);
-  //   }
+    // const token = localStorage.getItem('Job-Poster');
+    console.log(data);
+    try {
+      await axios.post('http://localhost:9000/post-job', formDataToSend, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          // Authorization: `Bearer ${token}`
+        }
+      });
+      toast.success("Job posted successfully");
+    } catch (error) {
+      toast.error("Failed to post job");
+      console.error(error);
+    }
   };
-
 
   return (
     <div className='max-w-screen-2xl container mx-auto xl:px-24 px-4'>
@@ -82,13 +84,11 @@ const PostJob = () => {
           <div className='create-job-flex'>
             <div className='w-full lg:w-1/2 '>
               <label className='block mb-2 text-lg'>Job Title</label>
-              <input type='text' placeholder={"Web Developer"} {...register("jobTitle", { required: true })} className='create-job-input' />
-              {errors.jobTitle && <p className='text-red-500'>Job Title is required</p>}
+              <input type='text' placeholder={"Web Developer"} {...register("jobTitle")} className='create-job-input' onChange={handleFormChange} />
             </div>
             <div className='w-full lg:w-1/2 '>
               <label className='block mb-2 text-lg'>Company Name</label>
-              <input type='text' placeholder='eg. microsoft' {...register("companyName", { required: true })} className='create-job-input' />
-              {errors.companyName && <p className='text-red-500'>Company Name is required</p>}
+              <input type='text' placeholder='eg. Microsoft' {...register("companyName")} className='create-job-input' onChange={handleFormChange} />
             </div>
           </div>
 
@@ -96,13 +96,11 @@ const PostJob = () => {
           <div className='create-job-flex'>
             <div className='w-full lg:w-1/2 '>
               <label className='block mb-2 text-lg'>Minimum Salary</label>
-              <input type='text' placeholder={"$23K"} {...register("minPrice", { required: true })} className='create-job-input' />
-              {errors.minPrice && <p className='text-red-500'>Minimum Salary is required</p>}
+              <input type='text' placeholder={"$23K"} {...register("minPrice")} className='create-job-input' onChange={handleFormChange} />
             </div>
             <div className='w-full lg:w-1/2 '>
               <label className='block mb-2 text-lg'>Maximum Salary</label>
-              <input type='text' placeholder='eg. $90k' {...register("maxPrice", { required: true })} className='create-job-input' />
-              {errors.maxPrice && <p className='text-red-500'>Maximum Salary is required</p>}
+              <input type='text' placeholder='eg. $90K' {...register("maxPrice")} className='create-job-input' onChange={handleFormChange} />
             </div>
           </div>
 
@@ -110,17 +108,15 @@ const PostJob = () => {
           <div className='create-job-flex'>
             <div className='w-full lg:w-1/2 '>
               <label className='block mb-2 text-lg'>Salary Type</label>
-              <select {...register("salaryType", { required: true })} className='create-job-input'>
+              <select {...register("salaryType")} className='create-job-input' onChange={handleFormChange}>
                 <option value="Monthly">Monthly</option>
                 <option value="Yearly">Yearly</option>
                 <option value="Hourly">Hourly</option>
               </select>
-              {errors.salaryType && <p className='text-red-500'>Salary Type is required</p>}
             </div>
             <div className='w-full lg:w-1/2 '>
               <label className='block mb-2 text-lg'>Job Location</label>
-              <input type='text' placeholder='eg. Brussels' {...register("jobLocation", { required: true })} className='create-job-input' />
-              {errors.jobLocation && <p className='text-red-500'>Job Location is required</p>}
+              <input type='text' placeholder='eg. Brussels' {...register("jobLocation")} className='create-job-input' onChange={handleFormChange} />
             </div>
           </div>
 
@@ -128,24 +124,22 @@ const PostJob = () => {
           <div className='create-job-flex'>
             <div className='w-full lg:w-1/2 '>
               <label className='block mb-2 text-lg'>Job Posting Date</label>
-              <input type='date' placeholder='eg. 2024-07-20' {...register("postingDate", { required: true })} className='create-job-input' />
-              {errors.postingDate && <p className='text-red-500'>Job Posting Date is required</p>}
+              <input type='date' placeholder='eg. 2024-07-20' {...register("postingDate")} className='create-job-input' onChange={handleFormChange} />
             </div>
             <div className='w-full lg:w-1/2 '>
               <label className='block mb-2 text-lg'>Experience Level</label>
-              <select {...register("experienceLevel", { required: true })} className='create-job-input'>
+              <select {...register("experienceLevel")} className='create-job-input' onChange={handleFormChange}>
                 <option value="">Choose Experience</option>
                 <option value="No experience">No experience</option>
                 <option value="Internship">Internship</option>
                 <option value="Work remotely">Work remotely</option>
               </select>
-              {errors.experienceLevel && <p className='text-red-500'>Experience Level is required</p>}
             </div>
           </div>
 
           {/* 5th row */}
           <div className='create-job-flex'>
-            <label className='block mb-2 text-lg'>Choose your skillSet</label>
+            <label className='block mb-2 text-lg'>Choose your skill set</label>
             <Creatable
               value={selectedSkills}
               onChange={setSelectedSkills}
@@ -158,40 +152,35 @@ const PostJob = () => {
           {/* 6th row */}
           <div className='create-job-flex'>
             <div className='w-full lg:w-1/2 '>
-              <label className='block mb-2 text-lg'>Company Logo </label>
-              <input type='text' placeholder='eg. url' {...register("companyLogo", { required: true })} className='create-job-input' />
-              {errors.companyLogo && <p className='text-red-500'>Company Logo URL is required</p>}
+              <label className='block mb-2 text-lg'>Company Logo</label>
+              <input type='text' placeholder='URL of Company Logo' {...register("companyLogo")} className='create-job-input' onChange={handleFormChange} />
             </div>
             <div className='w-full lg:w-1/2 '>
               <label className='block mb-2 text-lg'>Employment Type</label>
-              <select {...register("employmentType", { required: true })} className='create-job-input'>
+              <select {...register("employmentType")} className='create-job-input' onChange={handleFormChange}>
                 <option value="">Choose Employment Type</option>
                 <option value="Full-time">Full-time</option>
                 <option value="Part-time">Part-time</option>
                 <option value="Temporary">Temporary</option>
               </select>
-              {errors.employmentType && <p className='text-red-500'>Employment Type is required</p>}
             </div>
           </div>
 
           {/* 7th row */}
           <div className='w-full'>
             <label>Job Description</label>
-            <textarea {...register("description", { required: true })} rows={5} placeholder='job description' className='w-full pl-3 py-1.5 focus:outline-none' />
-            {errors.description && <p className='text-red-500'>Job Description is required</p>}
+            <textarea {...register("description")} rows={5} placeholder='Job description' className='w-full pl-3 py-1.5 focus:outline-none' onChange={handleFormChange} />
           </div>
 
           {/* last row */}
           <div className='create-job-flex'>
             <div className='w-full lg:w-1/2 '>
               <label> Job posted by </label>
-              <input type='email' placeholder='youremail@gmail.com' {...register("postedBy", { required: true })} className='create-job-input' />
-              {errors.postedBy && <p className='text-red-500'>Email is required</p>}
+              <input type='email' placeholder='youremail@gmail.com' {...register("postedBy")} className='create-job-input' onChange={handleFormChange} />
             </div>
             <div className='w-full lg:w-1/2 '>
               <label> Job number </label>
-              <input type='text' placeholder='start after 13 ' {...register("id", { required: true })} className='create-job-input' />
-              {errors.id && <p className='text-red-500'>Job Number is required</p>}
+              <input type='text' placeholder='start after 13 ' {...register("id")} className='create-job-input' onChange={handleFormChange} />
             </div>
           </div>
 
